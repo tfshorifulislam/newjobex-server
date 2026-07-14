@@ -2,9 +2,12 @@ const express = require('express');
 const app = express();
 const dotenv = require('dotenv');
 const cors = require('cors');
+
+
 const verificationRoute = require('./verifyRoute/sendEmail');
 const getOtp = require('./verifyRoute/getOtp');
 const homeRoute = require('./homeRoute/home');
+const getJobs = require('./jobPageRoute/jobGet');
 
 dotenv.config()
 app.use(cors())
@@ -28,6 +31,7 @@ async function run() {
 
         const database = client.db("newjobex");
         const otpVerificationCollection = database.collection('otp_verifications');
+        const jobsCollection = database.collection('jobs')
 
         //home route
         app.use('/', homeRoute())
@@ -37,6 +41,9 @@ async function run() {
 
         //get otp for verification user
         app.use("/api/verify-otp", getOtp(otpVerificationCollection))
+
+        //get all jobs
+        app.use('/api/jobs', getJobs(jobsCollection))
 
     } finally {
         // await client.close();
