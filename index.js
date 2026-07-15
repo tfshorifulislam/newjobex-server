@@ -9,6 +9,7 @@ const getOtp = require('./verifyRoute/getOtp');
 const homeRoute = require('./homeRoute/home');
 const getJobs = require('./jobPageRoute/jobGet');
 const getJobsById = require('./jobPageRoute/jobsDetails');
+const getRelatedJobs = require('/jobPageRoute/RelatedJobs')
 
 dotenv.config()
 app.use(cors())
@@ -36,7 +37,7 @@ async function run() {
 
         //home route
         app.use('/', homeRoute())
-        
+
         //send email for get otp code
         app.use("/api/send-email", verificationRoute(otpVerificationCollection))
 
@@ -48,6 +49,9 @@ async function run() {
 
         //get job by id
         app.use('/api/jobs', getJobsById(jobsCollection))
+
+        //get related job
+        app.use('/api/related-jobs', getRelatedJobs(jobsCollection))
 
     } finally {
         // await client.close();
