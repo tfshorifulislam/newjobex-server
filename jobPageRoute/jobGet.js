@@ -8,7 +8,7 @@ module.exports = (jobsCollection) => {
         const search = req.query.search || "";
         const location = req.query.location || "";
         const workplaceType = req.query.workplaceType || "";
-        const jobType = req.query.jobType || "";
+        const employmentType = req.query.employmentType  || "";
         const postedWithin = req.query.postedWithin || ""; 
 
         console.log("search:", search);
@@ -34,8 +34,8 @@ module.exports = (jobsCollection) => {
             query.workplaceType = workplaceType;
         }
 
-        if (jobType) {
-            query.jobType = jobType;
+        if (employmentType) {
+            query.employmentType = employmentType;
         }
 
         if (postedWithin && postedWithin !== "All") {
