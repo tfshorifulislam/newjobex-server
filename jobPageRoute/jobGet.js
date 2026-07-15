@@ -8,8 +8,8 @@ module.exports = (jobsCollection) => {
         const search = req.query.search || "";
         const location = req.query.location || "";
         const workplaceType = req.query.workplaceType || "";
-        const employmentType = req.query.employmentType  || "";
-        const postedWithin = req.query.postedWithin || ""; 
+        const employmentType = req.query.employmentType || "";
+        const postedWithin = req.query.postedWithin || "";
 
         console.log("search:", search);
         console.log("location:", location);
@@ -39,7 +39,20 @@ module.exports = (jobsCollection) => {
         }
 
         if (postedWithin && postedWithin !== "All") {
-            query.postedWithin = postedWithin;
+            const now = new Date();
+            let fromDate = new Date();
+
+            if (postedWithin === "Last Week") {
+                fromDate.setDate(now.getDate() - 7);
+            } else if (postedWithin === "Last 3 Months") {
+                fromDate.setMonth(now.getMonth() - 3);
+            } else if (postedWithin === "This Year") {
+                fromDate.setFullYear(now.getFullYear() - 1);
+            }
+
+            query.postedAt  = {
+                $gte: fromDate.toISOString(),
+            };
         }
 
         console.log(query);
