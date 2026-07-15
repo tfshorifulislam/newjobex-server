@@ -8,6 +8,7 @@ const verificationRoute = require('./verifyRoute/sendEmail');
 const getOtp = require('./verifyRoute/getOtp');
 const homeRoute = require('./homeRoute/home');
 const getJobs = require('./jobPageRoute/jobGet');
+const getJobsById = require('./jobPageRoute/jobsDetails');
 
 dotenv.config()
 app.use(cors())
@@ -44,6 +45,9 @@ async function run() {
 
         //get all jobs
         app.use('/api/jobs', getJobs(jobsCollection))
+
+        //get job by id
+        app.use('/api/jobs', getJobsById(jobsCollection))
 
     } finally {
         // await client.close();
