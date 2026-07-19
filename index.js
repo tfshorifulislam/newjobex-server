@@ -9,7 +9,8 @@ const getOtp = require('./verifyRoute/getOtp');
 const homeRoute = require('./homeRoute/home');
 const getJobs = require('./jobPageRoute/jobGet');
 const getJobsById = require('./jobPageRoute/jobsDetails');
-const getRelatedJobs = require('/jobPageRoute/RelatedJobs')
+const getRelatedJobs = require('./jobPageRoute/RelatedJobs');
+const saveJobs = require('./jobPageRoute/saveJobs');
 
 dotenv.config()
 app.use(cors())
@@ -34,6 +35,7 @@ async function run() {
         const database = client.db("newjobex");
         const otpVerificationCollection = database.collection('otp_verifications');
         const jobsCollection = database.collection('jobs')
+        const savedCollection = database.collection('saved')
 
         //home route
         app.use('/', homeRoute())
@@ -52,6 +54,9 @@ async function run() {
 
         //get related job
         app.use('/api/related-jobs', getRelatedJobs(jobsCollection))
+
+        //save jobs
+        app.use('/api/saved', saveJobs(savedCollection))
 
     } finally {
         // await client.close();
