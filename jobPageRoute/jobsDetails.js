@@ -43,6 +43,7 @@ module.exports = (jobsCollection) => {
                     applyUrl: job.url,
                     skillsAndExpertise: job.tags || [],
                     source: "remotive",
+                     applyType:"external"
                 });
             }
 
@@ -114,6 +115,7 @@ module.exports = (jobsCollection) => {
                     skillsAndExpertise: job.tags || [],
 
                     source: "arbeitnow",
+                     applyType:"external"
                 });
             }
 
