@@ -47,6 +47,77 @@ module.exports = (jobsCollection) => {
             }
 
             // =========================
+            // Arbeitnow Job
+            // =========================
+            if (id.startsWith("arbeitnow-")) {
+
+                const slug = id.replace("arbeitnow-", "");
+
+                const response = await axios.get(
+                    "https://www.arbeitnow.com/api/job-board-api"
+                );
+
+
+                const job = response.data.data.find(
+                    (item) => item.slug === slug
+                );
+
+
+                if (!job) {
+                    return res.status(404).send({
+                        message: "Job not found",
+                    });
+                }
+
+
+                return res.send({
+                    _id: `arbeitnow-${job.slug}`,
+
+                    jobTitle: job.title,
+
+                    companyName: job.company_name || "Unknown Company",
+
+                    companyLogo: "",
+
+                    location: job.location || "Remote",
+
+                    salary: "Not specified",
+
+                    description: job.description || "",
+
+                    jobRequirements: job.tags || [],
+
+                    responsibilities: [],
+
+                    employmentType: "Full-time",
+
+                    workplaceType: job.remote
+                        ? "Remote"
+                        : "On-site",
+
+                    postedAt: job.created_at
+                        ? new Date(job.created_at * 1000)
+                        : new Date(),
+
+                    deadline: null,
+
+                    experienceRequired: "Not specified",
+
+                    vacancy: null,
+
+                    applyUrl: job.url,
+
+                    category: job.tags?.[0] || "General",
+
+                    tags: job.tags || [],
+
+                    skillsAndExpertise: job.tags || [],
+
+                    source: "arbeitnow",
+                });
+            }
+
+            // =========================
             // Local MongoDB Job
             // =========================
 
