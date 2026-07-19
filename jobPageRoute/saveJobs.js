@@ -4,6 +4,7 @@ const { ObjectId } = require("mongodb");
 module.exports = (savedCollection) => {
     const router = express.Router();
 
+    //save jobs
     router.post("/", async (req, res) => {
 
         try {
@@ -81,6 +82,7 @@ module.exports = (savedCollection) => {
         }
     });
 
+    //save job delete
     router.delete("/", async (req, res) => {
         try {
             const { userId, jobId } = req.body;
