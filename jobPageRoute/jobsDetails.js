@@ -43,7 +43,7 @@ module.exports = (jobsCollection) => {
                     applyUrl: job.url,
                     skillsAndExpertise: job.tags || [],
                     source: "remotive",
-                     applyType:"external"
+                    applyType:"external"
                 });
             }
 
