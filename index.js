@@ -40,7 +40,6 @@ async function run() {
         const database = client.db("newjobex");
         const otpVerificationCollection = database.collection('otp_verifications');
         const jobsCollection = database.collection('jobs')
-        const requestJobsCollection = database.collection('request-Jobs')
         const savedCollection = database.collection('saved')
         const applyCollection = database.collection('apply')
 
@@ -67,7 +66,7 @@ async function run() {
 
 
         //request jobs post
-        app.use('/api/post-jobs', requestJobPost(requestJobsCollection))
+        app.use('/api/post-jobs', requestJobPost(jobsCollection))
 
         //saved jobs
         app.use("/api/savedJobs", savedJobsRoutes(savedCollection, jobsCollection));

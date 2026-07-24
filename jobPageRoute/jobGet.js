@@ -11,8 +11,14 @@ module.exports = (jobsCollection) => {
             const workplaceType = req.query.workplaceType || "";
             const employmentType = req.query.employmentType || "";
             const postedWithin = req.query.postedWithin || "";
+            const email = req.query.email || "";
 
             const query = {};
+
+            if (email) {
+                query.recruiterEmail = email;
+                query.status = "pending";
+            }
 
             if (search) {
                 query.jobTitle = {
@@ -64,7 +70,7 @@ module.exports = (jobsCollection) => {
                 source: "newjobex",
             }));
 
-           
+
             // ==========================
             // Merge
             // ==========================
