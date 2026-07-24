@@ -1,66 +1,34 @@
 const express = require("express");
 
-module.exports = (savedCollection) => {
+module.exports = (savedCollection, jobsCollection) => {
     const router = express.Router();
 
-    router.get("/", async (req, res) => {
+    // get user saved job
+    router.get("/savedJobs", async (req, res) => {
         try {
             const { userId } = req.query;
-
-            if (!userId) {
-                return res.status(400).send({
-                    success: false,
-                    message: "User ID is required",
-                });
-            }
-
-            const savedJobs = await savedCollection.aggregate([
-                {
-                    $match: {
-                        userId,
-                    },
-                },
-                {
-                    $lookup: {
-                        from: "jobs", // jobsCollection এর collection name
-                        localField: "jobId",
-                        foreignField: "jobId",
-                        as: "job",
-                    },
-                },
-                {
-                    $unwind: "$job",
-                },
-                {
-                    $replaceRoot: {
-                        newRoot: {
-                            $mergeObjects: [
-                                "$job",
-                                {
-                                    savedAt: "$createdAt",
-                                    savedId: "$_id",
-                                },
-                            ],
-                        },
-                    },
-                },
-                {
-                    $sort: {
-                        savedAt: -1,
-                    },
-                },
-            ]).toArray();
-
+    
+            const saved = await savedCollection
+                .find({ userId })
+                .sort({ createdAt: -1 })
+                .toArray();
+    
+            const jobIds = saved.map((item) => item.jobId);
+    
+            const jobs = await jobsCollection
+                .find({
+                    _id: { $in: jobIds },
+                })
+                .toArray();
+    
             res.send({
                 success: true,
-                data: savedJobs,
+                data: jobs,
             });
-        } catch (error) {
-            console.error(error);
-
+        } catch (err) {
             res.status(500).send({
                 success: false,
-                message: "Internal Server Error",
+                message: err.message,
             });
         }
     });

@@ -66,7 +66,7 @@ async function run() {
         app.use('/api/post-jobs', requestJobPost(requestJobsCollection))
 
         //saved jobs
-        app.use("/api/savedJobs",savedJobsRoutes(savedCollection));
+        app.use("/api/savedJobs",savedJobsRoutes(savedCollection, jobsCollection));
 
     } finally {
         // await client.close();
