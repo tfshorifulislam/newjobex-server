@@ -14,6 +14,8 @@ const saveJobs = require('./jobPageRoute/saveJobs');
 const requestJobPost = require('./postjobs/jobpost')
 const savedJobsRoutes = require("./seeker/savedjobs");
 const applyJobs = require("./apply/apply");
+const getSavedJobs = require("./save-job/savejobget");
+const getApplyJobs = require("./apply/getApplyJobs");
 
 dotenv.config()
 app.use(cors())
@@ -72,6 +74,12 @@ async function run() {
 
         // apply job 
         app.use('/apply-job', applyJobs(applyCollection));
+
+        // saved job 
+        app.use('/user-save-job', getSavedJobs(savedCollection));
+
+        // get apply job 
+        app.use('/user-apply-job', getApplyJobs(applyCollection));
 
     } finally {
         // await client.close();
