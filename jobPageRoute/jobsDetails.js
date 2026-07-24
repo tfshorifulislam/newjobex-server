@@ -7,10 +7,11 @@ module.exports = (jobsCollection) => {
 
     router.get("/:id", async (req, res) => {
         const { id } = req.params;
+        console.log(id)
 
-        const result = await jobsCollection.findOne({_id: new ObjectId(id),});
+        const result = await jobsCollection.findOne({_id: id});
         res.send(result);
-        
+
     });
 
     return router;

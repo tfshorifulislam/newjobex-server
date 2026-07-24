@@ -6,7 +6,7 @@ module.exports = (savedCollection) => {
     // Save Job
     router.post("/", async (req, res) => {
         try {
-            const { userId, jobId } = req.body;
+            const { userId, jobId, job } = req.body;
 
             if (!userId || !jobId) {
                 return res.status(400).send({
@@ -30,6 +30,7 @@ module.exports = (savedCollection) => {
             const result = await savedCollection.insertOne({
                 userId,
                 jobId,
+                job,
                 createdAt: new Date(),
             });
 
@@ -77,7 +78,7 @@ module.exports = (savedCollection) => {
     // Remove Saved Job
     router.delete("/", async (req, res) => {
         try {
-            const { userId, jobId } = req.body;
+            const { userId, jobId, job } = req.body;
 
             if (!userId || !jobId) {
                 return res.status(400).send({
@@ -89,6 +90,7 @@ module.exports = (savedCollection) => {
             const result = await savedCollection.deleteOne({
                 userId,
                 jobId,
+                job
             });
 
             if (!result.deletedCount) {
@@ -109,10 +111,6 @@ module.exports = (savedCollection) => {
             });
         }
     });
-
-
-    
-
 
     return router;
 };
