@@ -4,10 +4,10 @@ module.exports = (applyCollection) => {
     const router = express.Router();
 
     router.get("/", async (req, res) => {
-        const { userId } = req.query;
+        const { email } = req.query;
 
         const applyJobs = await applyCollection
-            .find({ userId })
+            .find({ email })
             .toArray();
 
         res.send({
